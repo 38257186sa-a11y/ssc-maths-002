@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SSC Maths Quiz</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    text-align: center;
+    padding: 40px;
+    max-width: 700px;
+    margin: auto;
+  }
+  h1 {
+    color: #2c3e50;
+  }
+  .chapter-btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    background: #27ae60;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .chapter-btn:hover {
+    background: #1e8449;
+  }
+  #quiz-container {
+    margin-top: 40px;
+    text-align: left;
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #question {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .option {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .option input {
+    margin-right: 10px;
+  }
+  #navigation {
+    margin-top: 20px;
+    text-align: center;
+  }
+  #navigation button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #27ae60;
+    color: white;
+  }
+  #navigation button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+  #score {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<h1>SSC Maths Preparation - Quiz</h1>
+<p>Select a chapter to start the quiz:</p>
+
+<div id="chapters">
+  <h2>Algebra</h2>
+  <button class="chapter-btn" data-url="scc-maths/algebra/algebra-set1.json">Algebra Set 1<br><small>Linear Equations & Expressions</small></button>
+  <button class="chapter-btn" data-url="scc-maths/algebra/algebra-set2.json">Algebra Set 2<br><small>Quadratic Equations & Factorization</small></button>
+
+  
+<h2>Geometry</h2>
+<a class="chapter-btn" href="scc-maths/geometry/geometry-set1.json">Geometry Set 1<br><small class="sub-text">Lines, Angles & Triangles</small></a>
+<a class="chapter-btn" href="scc-maths/geometry/geometry-set2.json">Geometry Set 2<br><small class="sub-text">Circles & Polygons</small></a>
+
+<h2>Trigonometry</h2>
+<a class="chapter-btn" href="scc-maths/trigonometry/trigonometry-set1.json">Trigonometry Set 1<br><small class="sub-text">Basic Ratios & Identities</small></a>
+<a class="chapter-btn" href="scc-maths/trigonometry/trigonometry-set2.json">Trigonometry Set 2<br><small class="sub-text">Graphs & Applications</small></a>
+
+<h2>Statistics & Probability</h2>
+<a class="chapter-btn" href="scc-maths/statistics/statistics-set1.json">Statistics Set 1<br><small class="sub-text">Data Handling Basics</small></a>
+<a class="chapter-btn" href="scc-maths/statistics/statistics-set2.json">Statistics Set 2<br><small class="sub-text">Measures of Central Tendency</small></a>
+
+<h2>Calculus</h2>
+<a class="chapter-btn" href="scc-maths/calculus/calculus-set1.json">Calculus Set 1<br><small class="sub-text">Limits & Continuity</small></a>
+<a class="chapter-btn" href="scc-maths/calculus/calculus-set2.json">Calculus Set 2<br><small class="sub-text">Differentiation</small></a>
+
+<h2>Coordinate Geometry</h2>
+<a class="chapter-btn" href="scc-maths/coordinate-geometry/coordinate-geometry-set1.json">Coordinate Geometry Set 1<br><small class="sub-text">Points, Lines & Circles</small></a>
+
+<h2>Mensuration</h2>
+<a class="chapter-btn" href="scc-maths/mensuration/mensuration-set1.json">Mensuration Set 1<br><small class="sub-text">Surface Area & Volume</small></a>
+
+<h2>Linear Programming</h2>
+<a class="chapter-btn" href="scc-maths/linear-programming/linear-programming-set1.json">Linear Programming Set 1<br><small class="sub-text">Optimization Problems</small></a>
+
+<h2>Matrices & Determinants</h2>
+<a class="chapter-btn" href="scc-maths/matrices/matrices-set1.json">Matrices Set 1<br><small class="sub-text">Matrix Operations</small></a>
+
+<h2>Sequences & Series</h2>
+<a class="chapter-btn" href="scc-maths/sequences-series/sequences-series-set1.json">Sequences & Series Set 1<br><small class="sub-text">Arithmetic & Geometric Series</small></a>
+
+<h2>Vectors</h2>
+<a class="chapter-btn" href="scc-maths/vectors/vectors-set1.json">Vectors Set 1<br><small class="sub-text">Vector Operations</small></a>
+
+<h2>Complex Numbers</h2>
+<a class="chapter-btn" href="scc-maths/complex-numbers/complex-numbers-set1.json">Complex Numbers Set 1<br><small class="sub-text">Imaginary Numbers & Properties</small></a>
+
+  <!-- Add other chapters here similarly -->
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div id="question"></div>
+  <form id="options-form"></form>
+
+  <div id="navigation">
+    <button id="prev-btn" disabled>Previous</button>
+    <button id="next-btn" disabled>Next</button>
+  </div>
+
+  <div id="score" style="display:none;"></div>
+</div>
+
+<script>
+  const chapterButtons = document.querySelectorAll('.chapter-btn');
+  const quizContainer = document.getElementById('quiz-container');
+  const questionEl = document.getElementById('question');
+  const optionsForm = document.getElementById('options-form');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const scoreEl = document.getElementById('score');
+
+  let questions = [];
+  let currentQuestionIndex = 0;
+  let userAnswers = [];
+
+  chapterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.getAttribute('data-url');
+      loadQuiz(url);
+    });
+  });
+
+  async function loadQuiz(url) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Failed to load quiz data');
+      questions = await res.json();
+      currentQuestionIndex = 0;
+      userAnswers = new Array(questions.length).fill(null);
+      scoreEl.style.display = 'none';
+      quizContainer.style.display = 'block';
+      document.getElementById('chapters').style.display = 'none';
+      renderQuestion();
+      updateNavigationButtons();
+    } catch (e) {
+      alert('Error loading quiz: ' + e.message);
+    }
+  }
+
+  function renderQuestion() {
+    const q = questions[currentQuestionIndex];
+    questionEl.textContent = `Q${currentQuestionIndex + 1}: ${q.question}`;
+    optionsForm.innerHTML = '';
+
+    q.options.forEach((option, idx) => {
+      const optionId = `option${idx}`;
+      const isChecked = userAnswers[currentQuestionIndex] === idx ? 'checked' : '';
+      optionsForm.innerHTML += `
+        <label class="option" for="${optionId}">
+          <input type="radio" name="option" id="${optionId}" value="${idx}" ${isChecked} />
+          ${option}
+        </label>
+      `;
+    });
+
+    // Enable next button only if an option is selected
+    optionsForm.onchange = () => {
+      nextBtn.disabled = false;
+      userAnswers[currentQuestionIndex] = parseInt(optionsForm.option.value);
+    };
+
+    // Initially check if answer is selected to set next button
+    nextBtn.disabled = userAnswers[currentQuestionIndex] === null;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      renderQuestion();
+      updateNavigationButtons();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (userAnswers[currentQuestionIndex] === null) {
+      alert('Please select an answer before proceeding.');
+      return;
+    }
+
+    if (currentQuestionIndex < questions.length - 1) {
+      currentQuestionIndex++;
+      renderQuestion();
+      updateNavigationButtons();
+    } else {
+      // Quiz completed
+      showScore();
+    }
+  });
+
+  function updateNavigationButtons() {
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.textContent = currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next';
+    // Disable next if no option selected
+    nextBtn.disabled = userAnswers[currentQuestionIndex] === null;
+  }
+
+  function showScore() {
+    quizContainer.style.display = 'none';
+    scoreEl.style.display = 'block';
+    const correctCount = userAnswers.reduce((acc, answer, idx) => {
+      return acc + (answer === questions[idx].answer ? 1 : 0);
+    }, 0);
+    scoreEl.textContent = `You scored ${correctCount} out of ${questions.length}`;
+  }
+</script>
+
+</body>
+</html>
