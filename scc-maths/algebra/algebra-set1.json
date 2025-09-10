@@ -59,13 +59,6 @@
       "question": "Simplify: 8x - 4(x + 1)",
       "options": ["4x - 4", "4x + 4", "12x - 4", "4x - 1"],
       "answer": "4x - 4"
-    },
-    // ... 90 more questions ...
-    {
-      "id": 100,
-      "question": "Solve for x: 9 - 2x = 3x + 4",
-      "options": ["x = 1", "x = 2", "x = 3", "x = 4"],
-      "answer": "x = 1"
     }
   ]
 }
